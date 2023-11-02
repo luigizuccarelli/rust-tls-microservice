@@ -1,3 +1,4 @@
+use std::env;
 use warp::{reply::json, Rejection, Reply};
 
 use crate::schema::*;
@@ -10,9 +11,9 @@ pub async fn process_payload(req: VSBase) -> Result<impl Reply, Rejection> {
 /// health check handler
 pub async fn health_handler() -> Result<impl Reply, Rejection> {
     let res = IsAlive {
-        name: "rust-tls-microservice".to_string(),
-        version: "0.0.1".to_string(),
-        status: "ok".to_string(),
+        name: env::var("HOSTNAME").unwrap(),
+        version: "0.1.0".to_string(),
+        status: "OK".to_string(),
     };
     Ok(json(&res))
 }
